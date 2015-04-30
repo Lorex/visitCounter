@@ -1,5 +1,5 @@
 var express = require('express');
-var counter = require('./counter.js')
+var counter = require('./counter')
 
 var app = express();
 
@@ -27,7 +27,8 @@ app.get('/', function(req, res) {
     counter.addVisit();
 
     res.render('index',{
-        visit: counter.getVisit()
+        visit: counter.getVisit(),
+        line: counter.getLineDesplay()
     });
     res.end();
 });
@@ -44,6 +45,15 @@ app.get('/purge', function(req, res) {
 
 app.post('/addStatus', function(req, res) {
     counter.addStatus(req.body.msg);
+
+    res.writeHead(302, {
+        'Location': '/'
+    });
+    res.end();
+});
+
+app.post('/setLines', function(req, res) {
+    counter.setLineDesplay(req.body.line);
 
     res.writeHead(302, {
         'Location': '/'

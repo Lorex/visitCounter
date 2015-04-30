@@ -18,35 +18,35 @@ var clearConsole = function() {
 };
 
 //time formatter --> d days, H:mm:dd
-var format = function (seconds){
-  var pad = function(s){
-    return (s < 10 ? '0' : '') + s;
-  };
+var format = function(seconds) {
+    var pad = function(s) {
+        return (s < 10 ? '0' : '') + s;
+    };
 
-  var days = Math.floor(seconds / (60*60*24));
-  var hours = Math.floor((seconds / (60*60)) - (days*24));
-  var minutes = Math.floor(seconds % (60*60) / 60);
-  var seconds = Math.floor(seconds % 60);
+    var days = Math.floor(seconds / (60 * 60 * 24));
+    var hours = Math.floor((seconds / (60 * 60)) - (days * 24));
+    var minutes = Math.floor(seconds % (60 * 60) / 60);
+    var seconds = Math.floor(seconds % 60);
 
-  return days + ' days, ' + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+    return days + ' days, ' + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
 };
 
 //display current status on console
-var status = function(){
+var status = function() {
     clearConsole();
     console.log("\033[32m" + " Uptime: " + "\033[0m" + format(process.uptime()) + "\n");
     console.log("\033[32m" + " Total Visitor: " + "\033[0m" + visit);
     console.log("\033[37m\n=====================================================\n");
-    for(var line in history)
-        if(line < historyLines)
+    for (var line in history)
+        if (line < historyLines)
             console.log(history[line]);
 };
 
 //add status
-var addStatus = function(str){
-    var today=new Date();
+var addStatus = function(str) {
+    var today = new Date();
     var currentTime = "\033[32m [" + today.toLocaleTimeString() + "] ";
-    
+
     if (history.length > 34)
         history.pop();
     history.unshift(currentTime + str);
@@ -54,16 +54,16 @@ var addStatus = function(str){
 };
 
 //add visitor
-var addVisit = function(){
+var addVisit = function() {
     visit++;
 
     var data = {
         visit: visit
     };
 
-    fs.writeFile(jsonfile, JSON.stringify(data, null, 4), function(err){
+    fs.writeFile(jsonfile, JSON.stringify(data, null, 4), function(err) {
         clearConsole();
-        if(err){
+        if (err) {
             console.log(err);
         } else {
             addStatus("\033[36m[MSG]\033[0m New Visitor!!!");
@@ -73,16 +73,16 @@ var addVisit = function(){
 };
 
 //purge all history and refresh console
-var purge = function(){
-	history = [];
+var purge = function() {
+    history = [];
     visit = 0;
     var data = {
         visit: 0
     };
 
-    fs.writeFile(jsonfile, JSON.stringify(data, null, 4), function(err){
+    fs.writeFile(jsonfile, JSON.stringify(data, null, 4), function(err) {
         clearConsole();
-        if(err){
+        if (err) {
             console.log(err);
         } else {
             addStatus("\033[35m[SYSTEM]\033[0m Visit history purged!!");
@@ -91,8 +91,16 @@ var purge = function(){
     });
 };
 
-var getVisit = function(){
+var getVisit = function() {
     return visit;
+}
+
+var setLineDesplay = function(num) {
+    historyLines = num;
+}
+
+var getLineDesplay = function(num) {
+    return historyLines;
 }
 
 //exports
@@ -101,3 +109,5 @@ exports.addStatus = addStatus;
 exports.addVisit = addVisit;
 exports.purge = purge;
 exports.getVisit = getVisit;
+exports.setLineDesplay = setLineDesplay;
+exports.getLineDesplay = getLineDesplay;

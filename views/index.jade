@@ -21,3 +21,11 @@ block content
 					input.form-control(type="text", name="msg")
 				div.col-sm-2
 					button.btn.btn-default(type="submit") 送出
+
+		form.form-horizontal(action="/setLines", method="post")
+			div.form-group
+				label.col-sm-2.control-label historyLines：#{line}
+				div.col-sm-5
+					input.form-control(type="text", name="line")
+				div.col-sm-2
+					button.btn.btn-default(type="submit") 送出
