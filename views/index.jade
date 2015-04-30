@@ -1,0 +1,23 @@
+extends ./bootstrap.jade
+
+block title
+	title 瀏覽量計數器
+
+block content
+	div.jumbotron
+		div.container
+			h1 瀏覽量計數器
+	
+	div.container
+		form.form-horizontal(action="/addStatus", method="post")
+			div.form-group
+				label.col-sm-2.control-label 瀏覽量：#{visit}
+				div.col-sm-5
+					a.btn.btn-default(href="/purge") 清除瀏覽紀錄
+
+			div.form-group
+				label.col-sm-2.control-label addStatus
+				div.col-sm-5
+					input.form-control(type="text", name="msg")
+				div.col-sm-2
+					button.btn.btn-default(type="submit") 送出
