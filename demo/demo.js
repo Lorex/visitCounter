@@ -6,7 +6,7 @@ var app = express();
 app.configure(function() {
 
     //設定靜態檔案所在目錄
-    app.use(express.static(__dirname + '/public'));
+    app.use(express.static(__dirname + './public'));
 
     //啟用 POST
     app.use(express.bodyParser());
@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
 
     res.render('index',{
         visit: counter.getVisit(),
-        line: counter.getLineDesplay()
+        line: counter.getLineDisplay()
     });
     res.end();
 });
@@ -53,7 +53,7 @@ app.post('/addStatus', function(req, res) {
 });
 
 app.post('/setLines', function(req, res) {
-    counter.setLineDesplay(req.body.line);
+    counter.setLineDisplay(req.body.line);
 
     res.writeHead(302, {
         'Location': '/'
